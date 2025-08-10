@@ -23,7 +23,7 @@ Display = function(a)
         else
             print("^1[ERROR] Locale file not found: " .. locale .. ".json^7")
         end
-        
+
         -- Then load characters
         QBCore.Functions.TriggerCallback('px-multicharacter:server:getCharacters', function(result)
             SendNUIMessage({
@@ -128,24 +128,30 @@ RegisterNUICallback("getSkinOfChar", function(data, cb)
         DeleteCharPed()
         local modelHash = type(model) == "string" and GetHashKey(model) or model
         if modelHash then
-            CreateThread(function()
+            Citizen.CreateThread(function()
                 RequestModel(modelHash)
-                while not HasModelLoaded(modelHash) do Wait(0) end
+                while not HasModelLoaded(modelHash) do Citizen.Wait(0) end
 
-                charPed = CreatePed(2, modelHash, Config.PedCoords.x, Config.PedCoords.y, Config.PedCoords.z - 0.98,
-                    Config.PedCoords.w, false, true)
+                local pedCoords = vector4(Config.PedCoords.x, Config.PedCoords.y, Config.PedCoords.z, Config.PedCoords.w)
+                charPed = CreatePed(2, modelHash, pedCoords.x, pedCoords.y, pedCoords.z - 0.98, pedCoords.w, false, true)
+
                 SetPedComponentVariation(charPed, 0, 0, 0, 2)
                 FreezeEntityPosition(charPed, true)
                 SetEntityInvincible(charPed, true)
-                PlaceObjectOnGroundProperly(charPed)
+                SetEntityCoordsNoOffset(charPed, pedCoords.x, pedCoords.y, pedCoords.z - 0.98, false, false, false)
                 SetBlockingOfNonTemporaryEvents(charPed, true)
+
+                SetModelAsNoLongerNeeded(modelHash)
 
                 local decodedSkinData = json.decode(skinData)
                 if decodedSkinData["Father"] then
                     TriggerEvent('qb-clothing:client:loadPlayerClothing', decodedSkinData, charPed)
                 else
-                    exports["fivem-appearance"]:setPedAppearance(charPed, decodedSkinData)
-                    -- TriggerEvent('qb-clothing:client:loadPlayerClothing', skinData)
+                    if Config.appearance == "fivem-appearance" then
+                        exports["fivem-appearance"]:setPedAppearance(charPed, decodedSkinData)
+                    else
+                        exports['illenium-appearance']:setPedAppearance(charPed, decodedSkinData)
+                    end
                 end
 
                 playRandomParticleEffect(GetEntityCoords(charPed))

@@ -202,8 +202,12 @@ if Config.Core == "qb" then
 
             TriggerClientEvent('pxmultichar:startCharacterCreation', src, charData.gender)
 
-            TriggerClientEvent("fivem-appearance:client:openClothingShop", src, true, model)
-            -- TriggerClientEvent('qb-clothing:client:openMenu2', src, model)
+            if Config.appearance == "fivem-appearance" then
+                TriggerClientEvent("fivem-appearance:client:openClothingShop", src, true, model)
+            else
+                TriggerClientEvent('illenium-appearance:client:openPlayerAppearance', src, model)
+            end
+
 
 
             TriggerClientEvent("closeui:incchar", src)

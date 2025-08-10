@@ -1,7 +1,8 @@
 Config = {}
 Config.Core = "qb"
-Config.SQL = "oxmysql" -- mysql-async  or  oxmysql  or  ghmattimysql
-Config.Locale = "tr"   -- tr, en , fr, de, pt, es
+Config.SQL = "oxmysql"                 -- mysql-async  or  oxmysql  or  ghmattimysql
+Config.Locale = "tr"                   -- tr, en , fr, de, pt, es
+Config.appearance = "fivem-appearance" -- fivem-appearance and illenium-appearance
 
 Config.StarterItems = {
     { item = "phone", amount = 1 }
