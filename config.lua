@@ -1,7 +1,7 @@
 Config = {}
 Config.Core = "qb"
 Config.SQL = "oxmysql" -- mysql-async  or  oxmysql  or  ghmattimysql
-Config.Locale = "tr"
+Config.Locale = "tr"   -- tr, en , fr, de, pt, es
 
 Config.StarterItems = {
     { item = "phone", amount = 1 }
@@ -24,7 +24,7 @@ Config.DiscordLoginIcon =
 
 Config.DefaultNumberOfCharacters = 1
 Config.PlayersNumberOfCharacters = {
-    ["license:d782a9d7f326706cad2af7572e30099098e0a6d5"] = 5
+    ["license:d782a9d7f326706cad2af7572e30099098e0a6d5"] = 10
 }
 
 Config.Credits = {

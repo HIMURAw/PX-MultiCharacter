@@ -1,5 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-
+local locale = Config.Locale
 
 RegisterCommand("char", function()
     Display(true)
@@ -11,6 +11,20 @@ end
 
 Display = function(a)
     if a then
+        -- Load translations first
+        local locale = Config.Locale or 'en'
+        local file = LoadResourceFile(GetCurrentResourceName(), "locale/" .. locale .. ".json")
+        if file then
+            local translations = json.decode(file)
+            SendNUIMessage({
+                action = "loadTranslations",
+                data = translations
+            })
+        else
+            print("^1[ERROR] Locale file not found: " .. locale .. ".json^7")
+        end
+        
+        -- Then load characters
         QBCore.Functions.TriggerCallback('px-multicharacter:server:getCharacters', function(result)
             SendNUIMessage({
                 type = "sendChars",
@@ -187,23 +201,6 @@ RegisterNUICallback("getDeleteCharConfig", function(data, cb)
     cb('ok')
 end)
 
-RegisterNUICallback('getTranslations', function(data, cb)
-    local received = false
-    local handler
-    handler = AddEventHandler('PX-MultiCharacter:receiveTranslations', function(phrases)
-        if not received then
-            cb(phrases)
-            received = true
-            RemoveEventHandler(handler)
-        end
-    end)
-    TriggerServerEvent('PX-MultiCharacter:requestTranslations')
-end)
-
-RegisterNUICallback('getLocale', function(data, cb)
-    cb(Config.Locale)
-end)
-
 RegisterNetEvent("closeui:incchar", function()
     Display(false)
 end)
@@ -238,6 +235,20 @@ RegisterNetEvent('pxmultichar:startCharacterCreation', function(gender)
 
     SetPlayerModel(PlayerId(), modelHash)
     SetModelAsNoLongerNeeded(modelHash)
+end)
+
+CreateThread(function()
+    local locale = Config.Locale
+    local file = LoadResourceFile(GetCurrentResourceName(), "locale/" .. locale .. ".json")
+    if file then
+        local translations = json.decode(file)
+        SendNUIMessage({
+            action = "loadTranslations",
+            data = translations
+        })
+    else
+        print("Locale dosyası bulunamadı: " .. locale)
+    end
 end)
 
 

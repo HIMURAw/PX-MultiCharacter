@@ -270,28 +270,3 @@ RegisterNetEvent("PX-multichar:server:deleteChar", function(charId)
     ExecuteSql("DELETE FROM `players` WHERE `citizenid` = @citizenId", { ['@citizenId'] = charId })
     DropPlayer(src, "Karakteriniz başarıyla silinmiştir.")
 end)
-
-RegisterNetEvent('PX-MultiCharacter:requestTranslations', function()
-    local src = source
-    local locale = Config.Locale or "en"
-    local phrases = {}
-
-    local file = string.format("Locale/%s.lua", locale)
-    local langFile = LoadResourceFile(GetCurrentResourceName(), file)
-
-    if not langFile and locale ~= "en" then
-        langFile = LoadResourceFile(GetCurrentResourceName(), "Locale/en.lua")
-    end
-
-    if langFile then
-        local chunk = load(langFile)
-        if chunk then
-            chunk()
-            if type(Translations) == "table" then
-                phrases = shallowCopy(Translations)
-            end
-        end
-    end
-
-    TriggerClientEvent('PX-MultiCharacter:receiveTranslations', src, phrases)
-end)

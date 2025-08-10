@@ -10,6 +10,8 @@
     "FirstName": "İsim",
     "LastName": "Soyisim",
     "Gender": "Cinsiyet",
+    "Female": "Kadın",
+    "Male": "Erkek",
     "Birthdate": "Doğum Tarihi",
     "Nationality": "Uyruk",
     "Civilian": "Sivil",

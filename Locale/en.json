@@ -10,6 +10,8 @@
     "FirstName": "First Name",
     "LastName": "Last Name",
     "Gender": "Gender",
+    "Female": "Female",
+    "Male": "Male",
     "Birthdate": "Birthdate",
     "Nationality": "Nationality",
     "Civilian": "Civilian",

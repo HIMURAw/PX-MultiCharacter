@@ -89,7 +89,6 @@ function loadchar() {
     $(".playerInformationBox").fadeIn("slow");
     $(".createCharacterBox").fadeOut();
     $.post("https://PX-MultiCharacter/getSkinOfChar", JSON.stringify({ charidentifier: chars[selectedindex].charidentifier }));
-    console.log(chars[selectedindex].charidentifier);
 }
 
 function createChar() {
@@ -186,6 +185,55 @@ window.addEventListener('message', function (event) {
     }
 });
 
+window.addEventListener('message', function (event) {
+    if (event.data.action === "loadTranslations") {
+        const translations = event.data.data;
+
+        // Process text nodes
+        // Handle all elements that might contain translatable text
+        document.querySelectorAll('*').forEach(el => {
+            // Handle text content in elements with only text nodes
+            if (el.childNodes.length === 1 && el.childNodes[0].nodeType === Node.TEXT_NODE) {
+                let text = el.textContent.trim();
+                let match = text.match(/^\{(.+)\}$/);
+                if (match && translations[match[1]]) {
+                    el.textContent = translations[match[1]];
+                }
+            }
+            // Handle text nodes that are siblings to other elements (like SVGs)
+            else if (el.childNodes.length > 1) {
+                Array.from(el.childNodes).forEach(childNode => {
+                    if (childNode.nodeType === Node.TEXT_NODE && childNode.textContent.trim() !== '') {
+                        let text = childNode.textContent.trim();
+                        let match = text.match(/^\{(.+)\}$/);
+                        if (match && translations[match[1]]) {
+                            childNode.textContent = translations[match[1]];
+                        }
+                    }
+                });
+            }
+            
+            // Handle input placeholders
+            if (el.placeholder) {
+                let match = el.placeholder.match(/^\{(.+)\}$/);
+                if (match && translations[match[1]]) {
+                    el.placeholder = translations[match[1]];
+                }
+            }
+            
+            // Handle select options
+            if (el.tagName === 'OPTION' && el.textContent) {
+                let match = el.textContent.trim().match(/^\{(.+)\}$/);
+                if (match && translations[match[1]]) {
+                    el.textContent = translations[match[1]];
+                }
+            }
+        });
+    }
+});
+
+
+
 
 window.addEventListener('keydown', function (e) {
     if (document.body.classList.contains('credits-active')) {
@@ -221,20 +269,3 @@ $(document).ready(function () {
         $.post('https://PX-MultiCharacter/setFilter', JSON.stringify({ filter }));
     });
 });
-
-// Sayfa yüklendiğinde çevirileri al ve uygula
-fetch('https://PX-MultiCharacter/getTranslations', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: '{}'
-})
-    .then(res => res.json())
-    .then(translations => {
-        console.log(translations)
-        if (translations.PlayGame) {
-            document.getElementById('playGameText').innerText = translations.PlayGame;
-        }
-    })
-    .catch(err => {
-        console.error("fetch error (getTranslations):", err);
-    });

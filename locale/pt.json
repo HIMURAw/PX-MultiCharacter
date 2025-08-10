@@ -1,0 +1,21 @@
+{
+    "PlayGame": "Jogar",
+    "PhotoMode": "Modo Foto",
+    "Credits": "Créditos",
+    "ExitGame": "Sair",
+    "NewChar": "Criar Novo Personagem",
+    "Title": "PX-MultiCharacter",
+    "CharacterInformation": "Informações do Personagem",
+    "CreateCharacter": "Criar Personagem",
+    "FirstName": "Nome",
+    "LastName": "Sobrenome",
+    "Gender": "Gênero",
+    "Female": "Feminino",
+    "Male": "Masculino",
+    "Birthdate": "Data de Nascimento",
+    "Nationality": "Nacionalidade",
+    "Civilian": "Civil",
+    "Bank": "Banco",
+    "Cash": "Dinheiro",
+    "DeleteChar": "Excluir Personagem"
+}
