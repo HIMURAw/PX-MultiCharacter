@@ -1,0 +1,19 @@
+{
+    "PlayGame": "Oyna",
+    "PhotoMode": "Fotoğraf Modu",
+    "Credits": "Künye",
+    "ExitGame": "Çıkış",
+    "NewChar": "Yeni Karakter Oluştur",
+    "Title": "PX-MultiCharacter",
+    "CharacterInformation": "Karakter Bilgisi",
+    "CreateCharacter": "Karakter Oluştur",
+    "FirstName": "İsim",
+    "LastName": "Soyisim",
+    "Gender": "Cinsiyet",
+    "Birthdate": "Doğum Tarihi",
+    "Nationality": "Uyruk",
+    "Civilian": "Sivil",
+    "Bank": "Banka",
+    "Cash": "Nakit",
+    "DeleteChar": "Karakteri Sil"
+}
